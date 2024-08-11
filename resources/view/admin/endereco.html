@@ -1,0 +1,90 @@
+<h2>Endereço</h2>
+<ul class="nav" role="tablist">
+  <li class="nav-item">
+    <a class="nav-link active" href="#" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Endereços</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Novo Endereço</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Editar</a>
+  </li>
+</ul>
+<div class="tab-content">
+  <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+    Tabeka
+  </div>
+  <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+    <form class="p-3">
+      <div class="row">
+        <div class="col-lg-1 col-md-4 col-ms-12">
+          <label class="form-label">Cep</label>
+          <input type="text" class="form-control" maxlength="9">
+        </div>
+        <div class="col-lg-3 col-md-4 col-ms-12">
+          <label class="form-label">Endereço</label>
+          <input type="text" class="form-control" maxlength="50">
+        </div>
+        <div class="col-lg-2 col-md-4 col-ms-12">
+          <label class="form-label">Cidade</label>
+          <input type="text" class="form-control">
+        </div>
+        <div class="col-lg-1 col-md-4 col-ms-12">
+          <label class="form-label">UF</label>
+          <input type="text" class="form-control" maxlength="2">
+        </div>
+        <div class="col-lg-2 col-md-4 col-ms-12">
+          <label class="form-label">Bairro</label>
+          <input type="text" class="form-control" maxlength="50">
+        </div>
+        <div class="col-lg-1 col-md-4 col-ms-12">
+          <label class="form-label">Ativo</label>
+          <select name="ativo" class="form-select" aria-label="Default select example">
+            <option value="S" selected>Sim</option>
+            <option value="N">Não</option>
+          </select>
+        </div>
+        <div class="col-lg-1 col-md-4 col-ms-12 mt-4">
+          <button type="button" data-type="cadEnd" class="btn btn-success mt-2">Cadastrar</button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+    <form class="p-3">
+      <div class="row">
+        <div class="col-lg-1 col-md-4 col-ms-12">
+          <label class="form-label">Cep</label>
+          <input type="text" class="form-control" maxlength="9">
+        </div>
+        <div class="col-lg-3 col-md-4 col-ms-12">
+          <label class="form-label">Endereço</label>
+          <input type="text" class="form-control" maxlength="50">
+        </div>
+        <div class="col-lg-2 col-md-4 col-ms-12">
+          <label class="form-label">Cidade</label>
+          <input type="text" class="form-control">
+        </div>
+        <div class="col-lg-1 col-md-4 col-ms-12">
+          <label class="form-label">UF</label>
+          <input type="text" class="form-control" maxlength="2">
+        </div>
+        <div class="col-lg-2 col-md-4 col-ms-12">
+          <label class="form-label">Bairro</label>
+          <input type="text" class="form-control" maxlength="50">
+        </div>
+        <div class="col-lg-1 col-md-4 col-ms-12">
+          <label class="form-label">Ativo</label>
+          <select name="ativo" class="form-select" aria-label="Default select example">
+            <option value="S" selected>Sim</option>
+            <option value="N">Não</option>
+          </select>
+        </div>
+        <div class="col-lg-1 col-md-4 col-ms-12 mt-4">
+          <button type="button" data-type="editEnd" class="btn btn-success mt-2">Editar</button>
+        </div>
+      </div>
+      <input type="hidden" name="idendereco" class="recebeEndereco">
+    </form>
+  </div>
+</div>
