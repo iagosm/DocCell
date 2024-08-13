@@ -13,6 +13,15 @@ $obRouter->get('/admin', [
   }
 ]);
 
+$obRouter->get('/admin/enderecos', [
+  'middlewares' => [
+    'required-admin-login'
+  ],
+  function() {
+    return new Response(200,  Admin\Endereco::getAllEnderecos(), 'application/json');
+  }
+]);
+
 $obRouter->get('/admin/endereco', [
   'middlewares' => [
     'required-admin-login'
@@ -23,15 +32,38 @@ $obRouter->get('/admin/endereco', [
 ]);
 
 // Cadastrar Endereço
-$obRouter->post('/admin/endereco', [
+$obRouter->post('/admin/endereco/add', [
   'middlewares' => [
     'required-admin-login'
   ],
   function($request) {
     $postVars = $request->getPostVars();
-    return new Response(200,  Admin\Endereco::add($postVars));
+    return new Response(200,  Admin\Endereco::add($postVars), 'application/json');
   }
 ]);
+
+// Edit Endereço
+$obRouter->post('/admin/endereco/{id}/edit', [
+  'middlewares' => [
+    'required-admin-login'
+  ],
+  function($request, $id) {
+    var_dump($request);exit;
+    $postVars = $request->getPostVars();
+    $postVars = $request->getParsedBody();
+    var_dump($postVars);exit;
+  return new Response(200, Admin\Endereco::edit($postVars, $id));
+}]);
+
+// Delete
+$obRouter->post('/admin/endereco/{id}/del', [
+  'middlewares' => [
+    'required-admin-login'
+  ],
+  function($id) {
+    return new Response(200, Admin\Endereco::del($id), 'application/json');
+}]);
+
 
 $obRouter->get('/admin/login', [
   'middlewares' => [

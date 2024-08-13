@@ -21,7 +21,52 @@
     <!-- Remover o link -->
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
     <script src="https://cdn.datatables.net/2.1.3/js/dataTables.js"></script>
-    <style>
+    <style >
+      .button-action {
+        border: none;
+        background: none;
+      }
+
+      .button-action.up {
+        color: blue;
+      }
+
+      .button-action.del  {
+        color: red;
+      }
+
+      #loader {
+        position: fixed; /* Posiciona o loader sobre toda a tela */
+        top: 0;
+        left: 0;
+        width: 100%; /* Ocupa toda a largura da tela */
+        height: 100%; /* Ocupa toda a altura da tela */
+        background-color: rgba(255, 255, 255, 0.8); /* Fundo branco semi-transparente */
+        display: flex; /* Usando flexbox para centralizar o spinner */
+        justify-content: center; /* Centraliza horizontalmente */
+        align-items: center; /* Centraliza verticalmente */
+        z-index: 9999; /* Garante que o loader fique acima de todos os elementos */
+        display: none; /* Esconde o loader inicialmente */
+      }
+
+      .spinner {
+        border: 8px solid #f3f3f3; /* Cor de fundo */
+        border-top: 8px solid #3498db; /* Cor da parte superior */
+        border-radius: 50%; /* Forma de círculo */
+        width: 50px; /* Largura do spinner */
+        height: 50px; /* Altura do spinner */
+        animation: spin 1s linear infinite; /* Animação de rotação */
+      }
+
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+
+      #content {
+        padding: 20px; /* Adiciona um espaço ao conteúdo */
+      }
+      
       body {
         font-family: "Roboto", sans-serif;
         background-color: #f4f5f7;
@@ -34,8 +79,7 @@
       .navbar-expand-lg .navbar-nav .nav-link {
         padding: 1rem 0.8rem;
       }
-
-
+      
       /* Side bar */
       ::after,
       ::before {
@@ -180,6 +224,15 @@
     </style>
   </head>
   <body class="">
+    <div id="content">
+      <button onclick="showLoader()">Carregar Conteúdo</button>
+  </div>
+
+  <!-- Loader -->
+  <div id="loader" class="loader">
+      <div class="spinner"></div>
+  </div>
+
     <div class="wrapper">
       <aside id="sidebar">
         <div class="d-flex">
@@ -320,21 +373,96 @@
       });
       
       let urlAtual = window.location.href;
-      console.log(urlAtual);
+      
+      async function actionAjax(url, data, type) {
+        return new Promise((resolve, reject) => {
+          $.ajax({
+            url: url,
+            type: type,
+            data: data,
+            success: function(response) {
+              resolve(response);
+              console.log(response)
+            },
+            error: function(xhr, status, error) {
+              reject(xhr.statusText);
+            }
+          });
+        });
+      }
+      
+      async function getTable(url, data, type) {
+        console.log('Chamnado')
+        let request = await actionAjax(url, data, type)
+        console.log(request)
+        console.log(typeof request)
+        table.clear().rows.add(request).draw(false);
+      }
 
-      // let urlAtual = window.location.href;
+      const table = new DataTable('#enderecoTable');
+      $(document).ready(async function() {
+        console.log('Olaaa')
+        let b = urlAtual + 's'
+        await getTable(b, [] , 'get');
+        console.log('PASSOU')
+      })
 
-      $.ajax({
-    url: urlAtual,
-    type: "POST",
-    data: { chave: "valor", pasternak: 'Olaa' }, // Envia os dados em formato URL-encoded
-    success: function(response) {
-        console.log("Requisição bem-sucedida:", response);
-    },
-    error: function(xhr, status, error) {
-        console.error("Erro na requisição:", xhr.statusText);
-    }
-});
+      async function add() {
+        let url = urlAtual + '/add'
+        console.log(url)
+        let form = $(this).closest('form');
+        let dados = form.serialize(); 
+        let request = await actionAjax(url, dados, 'POST');
+        console.log(dados)
+        console.log(request)
+        let b = urlAtual + 's'
+        await getTable(b, [] , 'get');
+        $('[data-bs-target="#nav-home"]').click();
+      }
+
+      $(document).on('click', '.button-action', async function() {
+        console.log('CLICOU PAÊ')
+        let action = $(this).data('action')
+        let id = $(this).data('id')
+        console.log(action)
+        console.log(id)
+        if(action == 'up') {
+          $('.recebeEndereco').val(id);
+        } else if(action == 'del') {
+          let url = urlAtual + '/' + id + '/del'
+          let request = await actionAjax(url, [], 'POST');
+        }
+        await getTable(urlAtual+'s', [] , 'get');
+      })
+      
+      function del() {
+        console.log('Acionando');
+       }
+      c = urlAtual+'2/del';
+
+      // console.log(actionAjax(c, [], 'POST'))
+    
+    
+      $('.teste').on('click', function() {
+        console.log('clicou')
+        addNewRow();
+      });
+    
+
+      function showLoader() {
+        document.getElementById('loader').style.display = 'flex'; // Mostra o loader
+        document.getElementById('content').style.display = 'none'; // Esconde o conteúdo
+
+        // Simulação de carregamento (opcional)
+        setTimeout(() => {
+            hideLoader(); // Esconde o loader após 3 segundos
+        }, 3000); // Altere este valor conforme necessário
+      }
+
+      function hideLoader() {
+          document.getElementById('loader').style.display = 'none'; // Esconde o loader
+          document.getElementById('content').style.display = 'block'; // Mostra o conteúdo
+      }
     </script>
     {{scripts}}
   </body>
