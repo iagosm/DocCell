@@ -13,7 +13,14 @@ class Endereco extends Page{
       'apelido' => 'asada',
       'site' => 'adsad',
     ]);
+    // $scripts = View::findScript(['endereco']);
     return parent::getPage('Dashboard', $conteudo);
+  }
+
+  public static function getEndereco($id) {
+    $endereco = new \App\Model\Entity\Endereco();
+    $resultado = $endereco->getEndereco($id);
+    return $resultado;
   }
 
   public static function getAllEnderecos() {
@@ -42,7 +49,7 @@ class Endereco extends Page{
 
   public static function add($dados) {
     $missingColumns = self::getExistColumns(['cep', 'endereco', 'cidade', 'uf', 'bairro', 'ativo']);
-    if($missingColumns) {
+    if($missingColumns && !empty($dados)) {
       $endereco = new \App\Model\Entity\Endereco();
       $resultado = $endereco->add($dados);
     } else {
@@ -51,15 +58,14 @@ class Endereco extends Page{
     return $resultado;
   }
   public static function edit($dados, $id) {
-    var_dump($dados, $id);
-    // $missingColumns = self::getExistColumns(['cep', 'endereco', 'cidade', 'uf', 'bairro', 'ativo']);
-    // if($missingColumns) {
-    //   $endereco = new \App\Model\Entity\Endereco();
-    //   $a = $endereco->add($dados);
-    //   var_dump($a);exit;
-    // } else {
-    //   $resultado = 'Há campos pendentes, preencha todos novamente';
-    // }
+    $missingColumns = self::getExistColumns(['cep', 'endereco', 'cidade', 'uf', 'bairro', 'ativo']);
+    if($missingColumns && !empty($dados)) {
+      $endereco = new \App\Model\Entity\Endereco();
+      $a = $endereco->edit($id, $dados);
+      var_dump($a);exit;
+    } else {
+      $resultado = 'Há campos pendentes, preencha todos novamente';
+    }
     return $resultado;
   }
 

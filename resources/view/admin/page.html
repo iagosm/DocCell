@@ -372,7 +372,7 @@
         $('#myTable').DataTable();
       });
       
-      let urlAtual = window.location.href;
+      let urlAtual = window.location.href.replace(/#.*$/, '');
       
       async function actionAjax(url, data, type) {
         return new Promise((resolve, reject) => {
@@ -390,65 +390,69 @@
           });
         });
       }
+
+      $(document).on('click', '.button-action', async function() {
+        let action = $(this).data('action')
+        let id = $(this).data('id')
+        if(action == 'up') {
+          $('.recebeEndereco').val(id);
+          let json = await actionAjax(urlAtual+'/get/'+id, [], 'get');
+          preencherFormulario('editForm', json);
+          $('.nav-link[data-bs-target="#nav-contact"]').tab('show');
+          
+        } else if(action == 'del') {
+          let url = urlAtual + '/' + id + '/del'
+          let request = await actionAjax(url, [], 'post');
+          await getTable(urlAtual+'s', [] , 'get');
+        }
+      });
+      
+      async function add() {
+        let url = urlAtual + '/add'
+        let form = $(this).closest('form');
+        let dados = form.serialize(); 
+        let request = await actionAjax(url, dados, 'POST');
+        let b = urlAtual + 's'
+        await getTable(b, [] , 'get');
+        $('.nav-link[data-bs-target="#nav-home"]').tab('show');
+      };
+
+      async function edit() {
+        let id = $('.recebeEndereco').val();
+        console.log(id)
+        let url = urlAtual +'/'+ id +'/edit'
+        let form = $(this).closest('form');
+        let dados = form.serialize(); 
+        let request = await actionAjax(url, dados, 'POST');
+        let b = urlAtual + 's'
+        await getTable(b, [] , 'get');
+        $('.nav-link[data-bs-target="#nav-home"]').tab('show');
+      };
       
       async function getTable(url, data, type) {
-        console.log('Chamnado')
         let request = await actionAjax(url, data, type)
-        console.log(request)
-        console.log(typeof request)
         table.clear().rows.add(request).draw(false);
       }
 
       const table = new DataTable('#enderecoTable');
       $(document).ready(async function() {
-        console.log('Olaaa')
         let b = urlAtual + 's'
         await getTable(b, [] , 'get');
-        console.log('PASSOU')
-      })
-
-      async function add() {
-        let url = urlAtual + '/add'
-        console.log(url)
-        let form = $(this).closest('form');
-        let dados = form.serialize(); 
-        let request = await actionAjax(url, dados, 'POST');
-        console.log(dados)
-        console.log(request)
-        let b = urlAtual + 's'
-        await getTable(b, [] , 'get');
-        $('[data-bs-target="#nav-home"]').click();
-      }
-
-      $(document).on('click', '.button-action', async function() {
-        console.log('CLICOU PAÊ')
-        let action = $(this).data('action')
-        let id = $(this).data('id')
-        console.log(action)
-        console.log(id)
-        if(action == 'up') {
-          $('.recebeEndereco').val(id);
-        } else if(action == 'del') {
-          let url = urlAtual + '/' + id + '/del'
-          let request = await actionAjax(url, [], 'POST');
-        }
-        await getTable(urlAtual+'s', [] , 'get');
       })
       
-      function del() {
-        console.log('Acionando');
-       }
-      c = urlAtual+'2/del';
-
-      // console.log(actionAjax(c, [], 'POST'))
-    
-    
-      $('.teste').on('click', function() {
-        console.log('clicou')
-        addNewRow();
-      });
-    
-
+      function preencherFormulario(formId, dados) {
+        var $form = $('#' + formId);
+        if ($form.length === 0) {
+          return false;
+        }
+        $.each(dados, function(chave, valor) {
+          let $elemento = $form.find('[name="' + chave + '"]');
+          if ($elemento.length) {
+            $elemento.val(valor);
+          }
+        });
+      }
+      
       function showLoader() {
         document.getElementById('loader').style.display = 'flex'; // Mostra o loader
         document.getElementById('content').style.display = 'none'; // Esconde o conteúdo
@@ -460,8 +464,8 @@
       }
 
       function hideLoader() {
-          document.getElementById('loader').style.display = 'none'; // Esconde o loader
-          document.getElementById('content').style.display = 'block'; // Mostra o conteúdo
+        document.getElementById('loader').style.display = 'none'; // Esconde o loader
+        document.getElementById('content').style.display = 'block'; // Mostra o conteúdo
       }
     </script>
     {{scripts}}

@@ -54,7 +54,6 @@ class Router {
 
     // Padrão de validação da URL
     $patternRoute = '/^'.str_replace('/', '\/', $route).'$/';
-    
     // Add Route dentro da class
     $this->routes[$patternRoute][$method] = $params;
   }

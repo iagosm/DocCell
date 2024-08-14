@@ -21,7 +21,7 @@ class View { // metodos responsaveis para renderizar view
     foreach($vars as $script) {
       $file = __DIR__.'/../../resources/javascript/'.$script.'.js';
       if (file_exists($file)) {
-        $scripts .= '<script src="resources/javascript/' . $script . '.js"></script>' . "\n";
+        $scripts .= '<script src="../resources/javascript/' . $script . '.js"></script>' . "\n";
       }
     }
     return $scripts;

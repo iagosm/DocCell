@@ -17,6 +17,19 @@ class Endereco {
     return array();
   }
 
+  public function getEndereco($id) {
+    $id = intval($id);
+    $database = new Database();
+    $conn = $database->connection;
+    $sql = "SELECT * FROM endereco 
+    WHERE idendereco=$id";
+    $sql = $conn->query($sql);
+    if($sql->rowCount() > 0) {
+      return $sql->fetch(\PDO::FETCH_ASSOC);
+    }
+    return array();
+  }
+
   public function add($dados) {
     $database = new Database();
     $conn = $database->connection;
@@ -41,7 +54,7 @@ class Endereco {
     return 0;
   }
 
-  public function edit() {
+  public function edit($id, $dados) {
     $database = new Database();
     $conn = $database->connection;
     $now = date("Y-m-d H:i:s");
