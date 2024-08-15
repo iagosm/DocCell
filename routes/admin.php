@@ -5,6 +5,7 @@ use \App\Controller\Admin;
 use \App\Utils\View;
 
 include __DIR__.'/admin/endereco.php';
+include __DIR__.'/admin/cliente.php';
 
 $obRouter->get('/admin', [
   'middlewares' => [

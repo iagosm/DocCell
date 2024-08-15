@@ -1,0 +1,103 @@
+<h2>Cliente</h2>
+<ul class="nav" role="tablist">
+  <li class="nav-item">
+    <a class="nav-link active" href="#" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Clientes</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Novo Cliente</a>
+  </li>
+  <li class="nav-item" >
+    <a class="nav-link" href="#" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false"></a>
+  </li>
+</ul>
+<div class="tab-content">
+  <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+    <div class="p-3">
+      <table id="enderecoTable" class="display" style="width:100%">
+        <thead>
+          <tr>
+            <th width="40">Cód</th>
+            <th>Nome</th>
+            <th>CPF</th>
+            <th>Telefone</th>
+            <th>E-mail</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+  <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+    <form class="p-3">
+      <div class="row">
+        <div class="col-lg-1 col-md-4 col-ms-12">
+          <label class="form-label">Cep</label>
+          <input type="text" name="cep" class="form-control" maxlength="8">
+        </div>
+        <div class="col-lg-3 col-md-4 col-ms-12">
+          <label class="form-label">Endereço</label>
+          <input type="text" name="endereco" class="form-control" maxlength="50">
+        </div>
+        <div class="col-lg-2 col-md-4 col-ms-12">
+          <label class="form-label">Cidade</label>
+          <input type="text" name="cidade" class="form-control">
+        </div>
+        <div class="col-lg-1 col-md-4 col-ms-12">
+          <label class="form-label">UF</label>
+          <input type="text" name="uf" class="form-control" maxlength="2">
+        </div>
+        <div class="col-lg-2 col-md-4 col-ms-12">
+          <label class="form-label">Bairro</label>
+          <input type="text" name="bairro" class="form-control" maxlength="50">
+        </div>
+        <div class="col-lg-1 col-md-4 col-ms-12">
+          <label class="form-label">Ativo</label>
+          <select name="ativo" class="form-select" aria-label="Default select example">
+            <option value="S" selected>Sim</option>
+            <option value="N">Não</option>
+          </select>
+        </div>
+        <div class="col-lg-1 col-md-4 col-ms-12 mt-4">
+          <button type="button" onclick="add.call(this)" data-type="cadEnd" class="btn btn-success mt-2">Cadastrar</button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+    <form class="p-3" id="editForm">
+      <div class="row">
+        <div class="col-lg-1 col-md-4 col-ms-12">
+          <label class="form-label">Cep</label>
+          <input type="text" name="cep" class="form-control" maxlength="8">
+        </div>
+        <div class="col-lg-3 col-md-4 col-ms-12">
+          <label class="form-label">Endereço</label>
+          <input type="text" name="endereco" class="form-control" maxlength="50">
+        </div>
+        <div class="col-lg-2 col-md-4 col-ms-12">
+          <label class="form-label">Cidade</label>
+          <input type="text" name="cidade" class="form-control">
+        </div>
+        <div class="col-lg-1 col-md-4 col-ms-12">
+          <label class="form-label">UF</label>
+          <input type="text" name="uf" class="form-control" maxlength="2">
+        </div>
+        <div class="col-lg-2 col-md-4 col-ms-12">
+          <label class="form-label">Bairro</label>
+          <input type="text" name="bairro" class="form-control" maxlength="50">
+        </div>
+        <div class="col-lg-1 col-md-4 col-ms-12">
+          <label class="form-label">Ativo</label>
+          <select name="ativo" class="form-select" aria-label="Default select example">
+            <option value="S" selected>Sim</option>
+            <option value="N">Não</option>
+          </select>
+        </div>
+        <div class="col-lg-1 col-md-4 col-ms-12 mt-4">
+          <button type="button" onclick="edit.call(this)" data-type="editEnd" class="btn btn-success mt-2">Editar</button>
+        </div>
+      </div>
+      <input type="hidden" name="idendereco" class="recebeEndereco">
+    </form>
+  </div>
+</div>
