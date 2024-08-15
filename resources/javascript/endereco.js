@@ -28,6 +28,7 @@ async function add() {
   let form = $(this).closest('form');
   let dados = form.serialize(); 
   let request = await actionAjax(url, dados, 'POST');
+  callNotificacao('Sucesso!', 'Endereço cadastrado com sucesso', 'success');
   let b = urlAtual + 's'
   await getTable(b, [] , 'get');
   $('.nav-link[data-bs-target="#nav-home"]').tab('show');
@@ -40,6 +41,7 @@ async function edit() {
   let form = $(this).closest('form');
   let dados = form.serialize(); 
   let request = await actionAjax(url, dados, 'POST');
+  callNotificacao('Sucesso!', 'Endereço editado com sucesso', 'success');
   let b = urlAtual + 's'
   await getTable(b, [] , 'get');
   activeLoad('stop');
@@ -83,8 +85,10 @@ $(document).on('click', '.button-action', async function() {
     $('.nav-link[data-bs-target="#nav-contact"]').tab('show');
     
   } else if(action == 'del') {
+    console.log('aaaa')
     let url = urlAtual + '/' + id + '/del'
-    let request = await actionAjax(url, [], 'post');
+    let request = await actionAjax(url, [], 'post');alert('ola')
+    callNotificacao('Sucesso!', 'Endereço excluido com sucesso', 'success');
     await getTable(urlAtual+'s', [] , 'get');
   }
 });
