@@ -13,8 +13,8 @@ class Endereco extends Page{
       'apelido' => 'asada',
       'site' => 'adsad',
     ]);
-    // $scripts = View::findScript(['endereco']);
-    return parent::getPage('Dashboard', $conteudo);
+    $scripts = View::findScript(['endereco']);
+    return parent::getPage('Dashboard', $conteudo, $scripts);
   }
 
   public static function getEndereco($id) {

@@ -62,10 +62,6 @@
         0% { transform: rotate(0deg); }
         100% { transform: rotate(360deg); }
       }
-
-      #content {
-        padding: 20px; /* Adiciona um espaço ao conteúdo */
-      }
       
       body {
         font-family: "Roboto", sans-serif;
@@ -224,15 +220,9 @@
     </style>
   </head>
   <body class="">
-    <div id="content">
-      <button onclick="showLoader()">Carregar Conteúdo</button>
-  </div>
-
-  <!-- Loader -->
-  <div id="loader" class="loader">
+    <div id="loader" class="loader">
       <div class="spinner"></div>
-  </div>
-
+    </div>
     <div class="wrapper">
       <aside id="sidebar">
         <div class="d-flex">
@@ -382,7 +372,6 @@
             data: data,
             success: function(response) {
               resolve(response);
-              console.log(response)
             },
             error: function(xhr, status, error) {
               reject(xhr.statusText);
@@ -390,55 +379,13 @@
           });
         });
       }
-
-      $(document).on('click', '.button-action', async function() {
-        let action = $(this).data('action')
-        let id = $(this).data('id')
-        if(action == 'up') {
-          $('.recebeEndereco').val(id);
-          let json = await actionAjax(urlAtual+'/get/'+id, [], 'get');
-          preencherFormulario('editForm', json);
-          $('.nav-link[data-bs-target="#nav-contact"]').tab('show');
-          
-        } else if(action == 'del') {
-          let url = urlAtual + '/' + id + '/del'
-          let request = await actionAjax(url, [], 'post');
-          await getTable(urlAtual+'s', [] , 'get');
-        }
-      });
-      
-      async function add() {
-        let url = urlAtual + '/add'
-        let form = $(this).closest('form');
-        let dados = form.serialize(); 
-        let request = await actionAjax(url, dados, 'POST');
-        let b = urlAtual + 's'
-        await getTable(b, [] , 'get');
-        $('.nav-link[data-bs-target="#nav-home"]').tab('show');
-      };
-
-      async function edit() {
-        let id = $('.recebeEndereco').val();
-        console.log(id)
-        let url = urlAtual +'/'+ id +'/edit'
-        let form = $(this).closest('form');
-        let dados = form.serialize(); 
-        let request = await actionAjax(url, dados, 'POST');
-        let b = urlAtual + 's'
-        await getTable(b, [] , 'get');
-        $('.nav-link[data-bs-target="#nav-home"]').tab('show');
-      };
       
       async function getTable(url, data, type) {
+        activeLoad('start');
         let request = await actionAjax(url, data, type)
         table.clear().rows.add(request).draw(false);
+        activeLoad('stop');
       }
-
-      const table = new DataTable('#enderecoTable');
-      $(document).ready(async function() {
-        let b = urlAtual + 's'
-        await getTable(b, [] , 'get');
-      })
       
       function preencherFormulario(formId, dados) {
         var $form = $('#' + formId);
@@ -453,19 +400,12 @@
         });
       }
       
-      function showLoader() {
-        document.getElementById('loader').style.display = 'flex'; // Mostra o loader
-        document.getElementById('content').style.display = 'none'; // Esconde o conteúdo
-
-        // Simulação de carregamento (opcional)
-        setTimeout(() => {
-            hideLoader(); // Esconde o loader após 3 segundos
-        }, 3000); // Altere este valor conforme necessário
-      }
-
-      function hideLoader() {
-        document.getElementById('loader').style.display = 'none'; // Esconde o loader
-        document.getElementById('content').style.display = 'block'; // Mostra o conteúdo
+      function activeLoad(status) {
+        if(status === 'start') {
+          document.getElementById('loader').style.display = 'flex'; 
+        } else if(status === 'stop') {
+          document.getElementById('loader').style.display = 'none';
+        }
       }
     </script>
     {{scripts}}

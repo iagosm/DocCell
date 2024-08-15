@@ -57,17 +57,21 @@ class Endereco {
   public function edit($id, $dados) {
     $database = new Database();
     $conn = $database->connection;
-    $now = date("Y-m-d H:i:s");
-    $sql = "INSERT INTO endereco
-    (cep, endereco, cidade, uf, bairro, ativo, created, updated) 
-    VALUES 
-    ('41612060','Princesa Isabel','Salvador','BA','Cajiviz','S','$now','$now')";
-    $sql = $conn->query($sql);
-    if($sql->rowCount() > 0) {
-      $id = $conn->lastInsertId();
-      return $id;
-    }
-    return 0;
+    $sql = "UPDATE endereco SET
+    cep=:cep, endereco=:endereco, cidade=:cidade,
+    uf=:uf,bairro=:bairro, ativo=:ativo, updated=:updated 
+    WHERE idendereco=:idendereco";
+    $sql = $conn->prepare($sql);
+    $sql->bindValue(':cep', $dados['cep']);
+    $sql->bindValue(':endereco', $dados['endereco']);
+    $sql->bindValue(':cidade', $dados['cidade']);
+    $sql->bindValue(':uf', $dados['uf']);
+    $sql->bindValue(':bairro', $dados['bairro']);
+    $sql->bindValue(':ativo', $dados['ativo']);
+    $sql->bindValue(':updated', date("Y-m-d H:i:s"));
+    $sql->bindValue(':idendereco', $id);
+    $sql->execute();
+    return ($sql->rowCount() > 0);
   }
 
 
